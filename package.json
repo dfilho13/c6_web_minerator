@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "fs": "^0.0.1-security",
+    "mssql": "^10.0.1",
+    "puppeteer": "^21.3.8",
+    "puppeteer-core": "^21.3.3",
+    "selenium": "^2.20.0",
+    "selenium-webdriver": "^4.12.0"
+  }
+}
