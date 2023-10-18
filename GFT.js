@@ -1,15 +1,10 @@
+
+require('dotenv').config()
 const puppeteer = require('puppeteer-core');
 const sql = require('mssql');
-let fs = require("fs");
 
-const readFileLines = filename =>
-  fs
-    .readFileSync(filename)
-    .toString('UTF8')
-    .split('\n');
-const loginAndPassword = readFileLines('login.txt');
-const login = loginAndPassword[0].trim();
-const password = loginAndPassword[1].trim();
+const login = process.env.C6_USER_000009
+const password = process.env.C6_GLOBAL_PASSWD
 
 async function main() {
   const config = {
@@ -185,7 +180,6 @@ async function main() {
 
       // Verifica se o botão "Próximo" está disponível e clicável
       const [nextPageButton] = await page.$x("//a[contains(., 'Próximo >>')]");
-      console.log("botão", nextPageButton)
       if (nextPageButton) {
         const isDisabled =  await page.evaluate((button) => {
           return button.getAttribute('disabled') === 'disabled';

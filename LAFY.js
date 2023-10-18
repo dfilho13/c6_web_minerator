@@ -1,15 +1,9 @@
+require('dotenv').config()
 const puppeteer = require('puppeteer-core');
 const sql = require('mssql');
-let fs = require("fs");
 
-const readFileLines = filename =>
-  fs
-    .readFileSync(filename)
-    .toString('UTF8')
-    .split('\n');
-const loginAndPassword = readFileLines('login.txt');
-const login = loginAndPassword[0].trim();
-const password = loginAndPassword[1].trim();
+const login = process.env.C6_USER_000264
+const password = process.env.C6_GLOBAL_PASSWD
 
 async function main() {
   const config = {
@@ -118,10 +112,6 @@ async function main() {
         return filteredData;
       });
 
-      const request = new sql.Request();
-      request.query(`
-        DELETE FROM tb_consulta_manual_c6 WHERE CORRESPONDENTE like '%LAFY INTERMEDIACOES%'
-      `);
       for (const rowData of tableData) {
         const atividade = rowData[6].substring(0, 255);
         const proposta = rowData[0].substring(0, 255); // Use um campo exclusivo como chave
@@ -131,7 +121,10 @@ async function main() {
           // Verificar se a proposta já existe no banco de dados
           const checkIfExistsQuery = `SELECT COUNT(*) AS count FROM Tb_Consulta_Manual_C6 WHERE PROPOSTA = '${proposta}'`;
           const checkIfExistsResult = await sql.query(checkIfExistsQuery);
-
+          const request = new sql.Request();
+          request.query(`
+            DELETE FROM tb_consulta_manual_c6 WHERE CORRESPONDENTE = 'LAFY INTERMEDIACOES'
+          `);
           if (checkIfExistsResult.recordset[0].count === 0) {
             request.input('PROPOSTA', sql.VarChar(255), rowData[0].substring(0, 255));
             request.input('CPF', sql.VarChar(255), rowData[1].substring(0, 255));
@@ -158,8 +151,8 @@ async function main() {
                 LEFT('${rowData[3]}', 255), 
                 LEFT('${rowData[4]}', 255), 
                 LEFT('${rowData[5]}', 255), 
-                LEFT('${rowData[6]}', 255), 
-                LEFT('${rowData[7]}', 255), 
+                LEFT('${rowData[6]}', 255),
+                LEFT('${rowData[7]}', 255),
                 LEFT('${rowData[8]}', 255),
                 LEFT('${rowData[9]}', 255),
                 LEFT('${rowData[10]}', 255), 

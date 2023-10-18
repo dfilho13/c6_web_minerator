@@ -1,16 +1,9 @@
 require('dotenv').config()
 const puppeteer = require('puppeteer-core');
 const sql = require('mssql');
-let fs = require("fs");
 
-const readFileLines = filename =>
-  fs
-    .readFileSync(filename)
-    .toString('UTF8')
-    .split('\n');
-const loginAndPassword = readFileLines('login.txt');
-const login = process.env.C6_USER_000264//loginAndPassword[0].trim();
-const password = process.env.C6_GLOBAL_PASSWD//loginAndPassword[1].trim();
+const login = process.env.C6_USER_000169
+const password = process.env.C6_GLOBAL_PASSWD
 
 async function main() {
   const config = {
