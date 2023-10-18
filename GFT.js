@@ -164,7 +164,7 @@ async function main() {
                 )
             `);
             request.query(`
-              INSERT INTO Tb_Log_Minerador_C6 VALUES ('${dataInsert}','${proposta}','${rowData[11]}')
+              INSERT INTO Tb_Log_Minerador_C6 VALUES (getDate(),'${rowData[0]}','${rowData[11]}')
             `);
 
             // Executa a consulta e aguarda a conclusão
