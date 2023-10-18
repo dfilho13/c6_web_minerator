@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const sql = require('mssql');
 let fs = require("fs");
 
@@ -23,7 +23,10 @@ async function main() {
     },
   }
 
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({
+    executablePath: 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+    headless: false,
+  });
 
   try {
     const page = await browser.newPage();
