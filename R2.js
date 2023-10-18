@@ -128,12 +128,11 @@ async function main() {
           // Verificar se a proposta já existe no banco de dados
           const checkIfExistsQuery = `SELECT COUNT(*) AS count FROM Tb_Consulta_Manual_C6 WHERE PROPOSTA = '${proposta}'`;
           const checkIfExistsResult = await sql.query(checkIfExistsQuery);
-
+          const request = new sql.Request();
+          request.query(`
+            DELETE FROM tb_consulta_manual_c6 WHERE CORRESPONDENTE = 'R2 PROMOTORA DE VEND'
+          `);
           if (checkIfExistsResult.recordset[0].count === 0) {
-            const request = new sql.Request();
-            request.query(`
-              DELETE FROM tb_consulta_manual_c6 WHERE CORRESPONDENTE = 'R2 PROMOTORA DE VEND'
-            `);
             request.input('PROPOSTA', sql.VarChar(255), rowData[0].substring(0, 255));
             request.input('CPF', sql.VarChar(255), rowData[1].substring(0, 255));
             request.input('CLIENTE', sql.VarChar(255), rowData[2].substring(0, 255));

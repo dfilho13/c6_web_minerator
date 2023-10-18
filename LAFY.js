@@ -25,7 +25,7 @@ async function main() {
 
   const browser = await puppeteer.launch({
     executablePath: 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
-    headless: false,
+    headless: true,
   });
 
   try {
@@ -118,6 +118,10 @@ async function main() {
         return filteredData;
       });
 
+      const request = new sql.Request();
+      request.query(`
+        DELETE FROM tb_consulta_manual_c6 WHERE CORRESPONDENTE like '%LAFY INTERMEDIACOES%'
+      `);
       for (const rowData of tableData) {
         const atividade = rowData[6].substring(0, 255);
         const proposta = rowData[0].substring(0, 255); // Use um campo exclusivo como chave
@@ -129,10 +133,6 @@ async function main() {
           const checkIfExistsResult = await sql.query(checkIfExistsQuery);
 
           if (checkIfExistsResult.recordset[0].count === 0) {
-            const request = new sql.Request();
-            request.query(`
-              DELETE FROM tb_consulta_manual_c6 WHERE CORRESPONDENTE = 'R2 PROMOTORA DE VEND'
-            `);
             request.input('PROPOSTA', sql.VarChar(255), rowData[0].substring(0, 255));
             request.input('CPF', sql.VarChar(255), rowData[1].substring(0, 255));
             request.input('CLIENTE', sql.VarChar(255), rowData[2].substring(0, 255));
