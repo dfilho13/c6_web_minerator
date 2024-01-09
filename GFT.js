@@ -13,10 +13,10 @@ const password = loginAndPassword[1].trim();
 
 async function main() {
   const config = {
-    user: 'GFT',
-    password: '%4ffbUBf8F7g',
-    server: 'AZ-SQL',
-    database: 'MIS_GFT',
+    user: '',
+    password: '',
+    server: '',
+    database: '',
     options: {
       encrypt: false,
       trustServerCertificate: false,
